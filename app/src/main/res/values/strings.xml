@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">mg_app</string>
+    <string name="title_activity_weather_row">WeatherRowActivity</string>
+</resources>
