@@ -4,22 +4,17 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.JsonReader;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
+import com.example.u772.testapp.dashes.Weather;
+import com.example.u772.testapp.dashes.WeatherTask;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,32 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout forecastContainer = (LinearLayout) findViewById(R.id.forecast_container);
 
-        List<Map<String, String>> dataList = new ArrayList<>();
-        dataList.add(new HashMap<String, String>());
-        dataList.add(new HashMap<String, String>());
-        dataList.add(new HashMap<String, String>());
-        dataList.add(new HashMap<String, String>());
-        dataList.add(new HashMap<String, String>());
-        for (Map<String, String> item : dataList){
-            item.put(AppConstants.KEY_DATE, "Tue 09");
-            item.put(AppConstants.KEY_MIN_TEMP, "-14   C");
-            item.put(AppConstants.KEY_MAX_TEMP, "+12   C");
-        }
+        Weather weather = new Weather();
+        weather.processMainActivity(MainActivity.this, weatherView, forecastContainer);
 
-        ForecastListAdapter forecastAdapter = new ForecastListAdapter(MainActivity.this, dataList);
-        for(Map<String, String> item : dataList){
-            View itemView = forecastAdapter.getView(dataList.indexOf(item), null, forecastContainer);
-            forecastContainer.addView(itemView);
-        }
-
-        boolean isNetworkAvailable = false;
-        isNetworkAvailable = ((ConnectivityManager) getApplicationContext()
-                                                        .getSystemService(Context.CONNECTIVITY_SERVICE))
-                                                        .getActiveNetworkInfo() != null;
-        if (isNetworkAvailable){
-            DownloadWeather weatherTask = new DownloadWeather();
-            weatherTask.execute();
-        }
     }
 
 

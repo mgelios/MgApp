@@ -1,10 +1,8 @@
-package com.example.u772.testapp;
+package com.example.u772.testapp.network;
 
-import android.os.AsyncTask;
+import android.content.Context;
+import android.net.ConnectivityManager;
 
-import org.apache.http.params.HttpConnectionParams;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,21 +10,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by U772 on 02.04.2018.
+ * Created by U772 on 05.04.2018.
  */
 
-public class DownloadWeather extends AsyncTask<String, Void, String> {
+public class NetworkProcessor {
 
-    @Override
-    protected void onPreExecute(){
-        super.onPreExecute();
+    public static boolean isNetworkAvailable(Context context){
+        return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE))
+                .getActiveNetworkInfo() != null;
     }
 
-    @Override
-    protected String doInBackground(String... strings) {
+    public static String doGet(String address, String parameters){
         HttpURLConnection connection = null;
         try{
-            URL url = new URL("https://mgelios.pythonanywhere.com/api/v1/weather");
+            URL url = new URL(address);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("content-type", "application/json; charset=utf-8");
             connection.setRequestProperty("Content-Language", "en-US");
@@ -60,8 +57,4 @@ public class DownloadWeather extends AsyncTask<String, Void, String> {
         }
     }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-    }
 }
