@@ -22,23 +22,6 @@ public class Weather {
                                     View weatherView,
                                     LinearLayout forecastContainer,
                                     View updateImageView){
-        List<Map<String, String>> dataList = new ArrayList<>();
-        dataList.add(new HashMap<String, String>());
-        dataList.add(new HashMap<String, String>());
-        dataList.add(new HashMap<String, String>());
-        dataList.add(new HashMap<String, String>());
-        dataList.add(new HashMap<String, String>());
-        for (Map<String, String> item : dataList){
-            item.put(AppConstants.KEY_DATE, "Tue 00");
-            item.put(AppConstants.KEY_MIN_TEMP, "-0   C");
-            item.put(AppConstants.KEY_MAX_TEMP, "+0   C");
-        }
-
-        ForecastListAdapter forecastAdapter = new ForecastListAdapter(mainActivity, dataList);
-        for(Map<String, String> item : dataList){
-            View itemView = forecastAdapter.getView(dataList.indexOf(item), null, forecastContainer);
-            forecastContainer.addView(itemView);
-        }
 
         WeatherTask weatherTask = new WeatherTask();
         weatherTask.setForecastContainer(forecastContainer);

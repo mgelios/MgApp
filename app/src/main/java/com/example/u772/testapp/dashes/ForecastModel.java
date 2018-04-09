@@ -1,5 +1,7 @@
 package com.example.u772.testapp.dashes;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -8,85 +10,63 @@ import java.util.Date;
 
 public class ForecastModel {
 
-    private String city = "";
+    private String date = "";
 
-    private String requestedCity = "";
+    private int maxTemp = -2147000000;
 
-    private int temperature = 0;
-
-    private int minTemperature = 0;
-
-    private int maxTemperature = 0;
+    private int minTemp = 2147000000;
 
     private int pressure = 0;
 
-    private int humidity = 0;
+    private int windSpeed = 0;
 
-    private String info = "";
+    private String description = null;
 
-    private String description = "";
-
-    private String icon = "";
-
-    private double windSpeed = 0.0;
-
-    private double windDeg = 0.0;
-
-    private Date date = null;
-
-
-
-
-
-    public String getCity() {
-        return city;
+    public String getDate() {
+        return date;
     }
 
-    public String getRequestedCity() {
-        return requestedCity;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public int getTemperature() {
-        return temperature;
+    public int getMaxTemp() {
+        return maxTemp;
     }
 
-    public int getMinTemperature() {
-        return minTemperature;
+    public void setMaxTemp(int maxTemp) {
+        this.maxTemp = maxTemp;
     }
 
-    public int getMaxTemperature() {
-        return maxTemperature;
+    public int getMinTemp() {
+        return minTemp;
+    }
+
+    public void setMinTemp(int minTemp) {
+        this.minTemp = minTemp;
     }
 
     public int getPressure() {
         return pressure;
     }
 
-    public int getHumidity() {
-        return humidity;
+    public void setPressure(int pressure) {
+        this.pressure = pressure;
     }
 
-    public String getInfo() {
-        return info;
+    public int getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(int windSpeed) {
+        this.windSpeed = windSpeed;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String getIcon() {
-        return icon;
-    }
-
-    public double getWindSpeed() {
-        return windSpeed;
-    }
-
-    public double getWindDeg() {
-        return windDeg;
-    }
-
-    public Date getDate() {
-        return date;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
+import com.example.u772.testapp.AppConstants;
+import com.example.u772.testapp.ForecastListAdapter;
 import com.example.u772.testapp.MainActivity;
 import com.example.u772.testapp.R;
 import com.example.u772.testapp.network.NetworkProcessor;
@@ -25,7 +27,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by U772 on 02.04.2018.
@@ -44,6 +49,8 @@ public class WeatherTask extends AsyncTask<String, Void, String> {
     private static final String WEATHER_URL = "https://mgelios.pythonanywhere.com/api/v1/weather";
 
     private Animation rotateAnimation = null;
+
+    private ForecastListAdapter forecastAdapter = null;
 
     @Override
     protected void onPreExecute(){
@@ -72,7 +79,22 @@ public class WeatherTask extends AsyncTask<String, Void, String> {
             TextView sunrise = weatherView.findViewById(R.id.weather_sunrise);
             TextView sunset = weatherView.findViewById(R.id.weather_sunset);
 
-            mainTempView.setText(String.valueOf(weatherModel.getTemperature()));
+            List<Map<String, String>> dataList = new ArrayList<>();
+            for (ForecastModel forecast : weatherModel.getForecasts()){
+                Map<String, String> tmpMap = new HashMap<>();
+                tmpMap.put(AppConstants.KEY_DATE, forecast.getDate());
+                tmpMap.put(AppConstants.KEY_MIN_TEMP, String.valueOf(forecast.getMinTemp())+AppConstants.TEMPERATURE_SUFFIX);
+                tmpMap.put(AppConstants.KEY_MAX_TEMP, String.valueOf(forecast.getMaxTemp())+AppConstants.TEMPERATURE_SUFFIX);
+                dataList.add(tmpMap);
+            }
+
+            forecastAdapter = new ForecastListAdapter(activity, dataList);
+            for(Map<String, String> item : dataList){
+                View itemView = forecastAdapter.getView(dataList.indexOf(item), null, forecastContainer);
+                forecastContainer.addView(itemView);
+            }
+
+            mainTempView.setText(String.valueOf(weatherModel.getTemperature()) + AppConstants.TEMPERATURE_SUFFIX);
             mainInfo.setText(weatherModel.getDescription());
             humidity.setText("влажность: " + String.valueOf(weatherModel.getHumidity()) + "%");
             wind.setText("ветер: " + String.valueOf(weatherModel.getWindSpeed()) + " м/сек");
