@@ -2,10 +2,14 @@ package com.example.u772.testapp.dashes;
 
 import android.os.AsyncTask;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
+import com.example.u772.testapp.MainActivity;
 import com.example.u772.testapp.R;
 import com.example.u772.testapp.network.NetworkProcessor;
 
@@ -33,10 +37,18 @@ public class WeatherTask extends AsyncTask<String, Void, String> {
 
     private LinearLayout forecastContainer = null;
 
+    private View updateImageView = null;
+
+    private MainActivity activity = null;
+
     private static final String WEATHER_URL = "https://mgelios.pythonanywhere.com/api/v1/weather";
+
+    private Animation rotateAnimation = null;
 
     @Override
     protected void onPreExecute(){
+        rotateAnimation = AnimationUtils.loadAnimation(activity, R.anim.rotation);
+        updateImageView.startAnimation(rotateAnimation);
         super.onPreExecute();
     }
 
@@ -69,6 +81,8 @@ public class WeatherTask extends AsyncTask<String, Void, String> {
             sunset.setText("закат: " + timeFormat.format(weatherModel.getSunset()));
         } catch (JSONException e) {
             System.out.println(e.getMessage());
+        } finally {
+            updateImageView.clearAnimation();
         }
     }
 
@@ -83,5 +97,13 @@ public class WeatherTask extends AsyncTask<String, Void, String> {
 
     public void setForecastContainer(LinearLayout forecastContainer) {
         this.forecastContainer = forecastContainer;
+    }
+
+    public void setUpdateImageView(View updateImageView) {
+        this.updateImageView = updateImageView;
+    }
+
+    public void setActivity(MainActivity activity) {
+        this.activity = activity;
     }
 }

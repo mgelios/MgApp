@@ -18,7 +18,10 @@ import java.util.Map;
 
 public class Weather {
 
-    public void processMainActivity(MainActivity mainActivity, View weatherView, LinearLayout forecastContainer){
+    public void processMainActivity(MainActivity mainActivity,
+                                    View weatherView,
+                                    LinearLayout forecastContainer,
+                                    View updateImageView){
         List<Map<String, String>> dataList = new ArrayList<>();
         dataList.add(new HashMap<String, String>());
         dataList.add(new HashMap<String, String>());
@@ -40,6 +43,8 @@ public class Weather {
         WeatherTask weatherTask = new WeatherTask();
         weatherTask.setForecastContainer(forecastContainer);
         weatherTask.setWeatherView(weatherView);
+        weatherTask.setUpdateImageView(updateImageView);
+        weatherTask.setActivity(mainActivity);
         weatherTask.execute();
     }
 
