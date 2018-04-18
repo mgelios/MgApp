@@ -1,6 +1,7 @@
 package com.example.u772.testapp.dashes;
 
 import android.os.AsyncTask;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -42,20 +43,27 @@ public class WeatherTask extends AsyncTask<String, Void, String> {
 
     private LinearLayout forecastContainer = null;
 
-    private View updateImageView = null;
-
     private MainActivity activity = null;
 
     private static final String WEATHER_URL = "https://mgelios.pythonanywhere.com/api/v1/weather";
 
-    private Animation rotateAnimation = null;
-
     private ForecastListAdapter forecastAdapter = null;
+
+    public WeatherTask(){
+
+    }
+
+    public WeatherTask(MainActivity mainActivity){
+        activity = mainActivity;
+        LinearLayout listItems = (LinearLayout) activity.findViewById(R.id.listItems);
+        LayoutInflater layoutInflater = activity.getLayoutInflater();
+        weatherView = layoutInflater.inflate(R.layout.weather_row,null, false);
+        listItems.addView(weatherView);
+        forecastContainer = (LinearLayout) activity.findViewById(R.id.forecast_container);
+    }
 
     @Override
     protected void onPreExecute(){
-        rotateAnimation = AnimationUtils.loadAnimation(activity, R.anim.rotation);
-        updateImageView.startAnimation(rotateAnimation);
         super.onPreExecute();
     }
 
@@ -103,13 +111,12 @@ public class WeatherTask extends AsyncTask<String, Void, String> {
             sunset.setText("закат: " + timeFormat.format(weatherModel.getSunset()));
         } catch (JSONException e) {
             System.out.println(e.getMessage());
-        } finally {
-            updateImageView.clearAnimation();
+        } catch (NullPointerException e){
+            System.out.println(e.getMessage());
         }
     }
 
     private List<ForecastModel> fillForecasts(JSONArray rawForecasts){
-
         return null;
     }
 
@@ -119,10 +126,6 @@ public class WeatherTask extends AsyncTask<String, Void, String> {
 
     public void setForecastContainer(LinearLayout forecastContainer) {
         this.forecastContainer = forecastContainer;
-    }
-
-    public void setUpdateImageView(View updateImageView) {
-        this.updateImageView = updateImageView;
     }
 
     public void setActivity(MainActivity activity) {

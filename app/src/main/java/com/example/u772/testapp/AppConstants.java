@@ -10,4 +10,8 @@ public interface AppConstants {
 
     public static final String KEY_MAX_TEMP = "max_temp";
 
+    public static final String KEY_NAME = "name";
+
+    public static final String KEY_VALUE = "value";
+
 }

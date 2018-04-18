@@ -45,12 +45,20 @@
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
-        android:id="@+id/listItems"
-        android:layout_height="wrap_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/app_header">
-    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/listItems"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:paddingBottom="10dp"
+            android:background="#d7d7d7"
+            android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

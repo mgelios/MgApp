@@ -9,8 +9,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.u772.testapp.dashes.CurrencyTask;
 import com.example.u772.testapp.dashes.Weather;
 import com.example.u772.testapp.dashes.WeatherTask;
+import com.example.u772.testapp.task.AsyncTaskBundle;
+import com.example.u772.testapp.ui.PostUpdateUITask;
+import com.example.u772.testapp.ui.PreUpdateUITask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,16 +29,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LinearLayout listItems = (LinearLayout) findViewById(R.id.listItems);
-        LayoutInflater layoutInflater = getLayoutInflater();
-        View updateImageView = findViewById(R.id.header_update);
-        View weatherView = layoutInflater.inflate(R.layout.weather_row,null, false);
-        listItems.addView(weatherView);
-
-        LinearLayout forecastContainer = (LinearLayout) findViewById(R.id.forecast_container);
-
-        Weather weather = new Weather();
-        weather.processMainActivity(MainActivity.this, weatherView, forecastContainer, updateImageView);
+        AsyncTaskBundle updateMainScreen = new AsyncTaskBundle();
+        updateMainScreen.addTask(new PreUpdateUITask(MainActivity.this));
+        updateMainScreen.addTask(new WeatherTask(MainActivity.this));
+        updateMainScreen.addTask(new CurrencyTask(MainActivity.this));
+        updateMainScreen.addTask(new PostUpdateUITask(MainActivity.this));
+        updateMainScreen.execute();
 
     }
 

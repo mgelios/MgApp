@@ -26,8 +26,6 @@ public class Weather {
         WeatherTask weatherTask = new WeatherTask();
         weatherTask.setForecastContainer(forecastContainer);
         weatherTask.setWeatherView(weatherView);
-        weatherTask.setUpdateImageView(updateImageView);
-        weatherTask.setActivity(mainActivity);
         weatherTask.execute();
     }
 
