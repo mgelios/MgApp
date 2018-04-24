@@ -1,6 +1,7 @@
 package com.example.u772.testapp.dashes;
 
 import android.os.AsyncTask;
+import android.support.v4.math.MathUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -17,6 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.MathContext;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,12 +65,25 @@ public class CurrencyTask extends AsyncTask<String, Void, String> {
 
             List<Map<String, String>> dataList = new ArrayList<>();
             JSONArray rawCurrencies = jsonResponse.getJSONArray("currencies");
-            JSONArray rawConverions = jsonResponse.getJSONArray("conversions");
+            JSONArray rawConversions = jsonResponse.getJSONArray("conversions");
             for (int i = 0; i < rawCurrencies.length(); i++){
                 JSONObject tmpCurrency = (JSONObject) rawCurrencies.get(i);
                 Map<String, String> tmpMap = new HashMap<>();
-                tmpMap.put(AppConstants.KEY_NAME, tmpCurrency.getString("abbreviation"));
-                tmpMap.put(AppConstants.KEY_VALUE, tmpCurrency.getString("rate"));
+                String name = tmpCurrency.getString("scale") + " " + tmpCurrency.getString("abbreviation") + ":";
+                tmpMap.put(AppConstants.KEY_NAME, name);
+                String value = tmpCurrency.getString("rate")+ " BYN";
+                tmpMap.put(AppConstants.KEY_VALUE, value);
+                dataList.add(tmpMap);
+            }
+            for (int i = 0; i < rawConversions.length(); i++){
+                JSONObject tmpConversion = (JSONObject) rawConversions.get(i);
+                Map<String, String> tmpMap = new HashMap<>();
+                Double converstionValue = tmpConversion.getDouble("value");
+                DecimalFormat decimalFormat = new DecimalFormat("######.####");
+                String name = tmpConversion.getString("currency_from") + "/" + tmpConversion.getString("currency_to");
+                String value = decimalFormat.format(converstionValue);
+                tmpMap.put(AppConstants.KEY_NAME, name);
+                tmpMap.put(AppConstants.KEY_VALUE, value);
                 dataList.add(tmpMap);
             }
 
