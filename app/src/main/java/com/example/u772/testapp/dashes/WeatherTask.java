@@ -86,6 +86,7 @@ public class WeatherTask extends AsyncTask<String, Void, String> {
             TextView visibility = weatherView.findViewById(R.id.weather_visibility);
             TextView sunrise = weatherView.findViewById(R.id.weather_sunrise);
             TextView sunset = weatherView.findViewById(R.id.weather_sunset);
+            ImageView weatherImage = weatherView.findViewById(R.id.weather_main_image);
 
             List<Map<String, String>> dataList = new ArrayList<>();
             for (ForecastModel forecast : weatherModel.getForecasts()){
@@ -102,6 +103,10 @@ public class WeatherTask extends AsyncTask<String, Void, String> {
                 forecastContainer.addView(itemView);
             }
 
+            int imageId = activity.getResources().getIdentifier(
+                    "ic_" + weatherModel.getIcon(),
+                    "drawable",activity.getPackageName());
+            weatherImage.setImageResource(imageId);
             mainTempView.setText(String.valueOf(weatherModel.getTemperature()) + AppConstants.TEMPERATURE_SUFFIX);
             mainInfo.setText(weatherModel.getDescription());
             humidity.setText("влажность: " + String.valueOf(weatherModel.getHumidity()) + "%");

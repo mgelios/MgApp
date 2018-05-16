@@ -27,4 +27,8 @@ public class AsyncTaskBundle {
         taskList.add(task);
     }
 
+    public void clearTasks(){
+        taskList.removeAll(taskList);
+    }
+
 }

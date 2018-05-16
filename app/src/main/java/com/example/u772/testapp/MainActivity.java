@@ -24,18 +24,28 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private AsyncTaskBundle updateMainScreen = new AsyncTaskBundle();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        AsyncTaskBundle updateMainScreen = new AsyncTaskBundle();
         updateMainScreen.addTask(new PreUpdateUITask(MainActivity.this));
         updateMainScreen.addTask(new WeatherTask(MainActivity.this));
         updateMainScreen.addTask(new CurrencyTask(MainActivity.this));
         updateMainScreen.addTask(new PostUpdateUITask(MainActivity.this));
         updateMainScreen.execute();
+    }
 
+    public void updateImageClick(View view){
+        if (view.getAnimation() == null){
+            updateMainScreen.clearTasks();
+            updateMainScreen.addTask(new PreUpdateUITask(MainActivity.this));
+            updateMainScreen.addTask(new WeatherTask(MainActivity.this));
+            updateMainScreen.addTask(new CurrencyTask(MainActivity.this));
+            updateMainScreen.addTask(new PostUpdateUITask(MainActivity.this));
+            updateMainScreen.execute();
+        }
     }
 
 

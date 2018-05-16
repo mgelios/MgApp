@@ -40,11 +40,13 @@
                 android:textSize="48sp"
                 android:text="-14  C"/>
 
-            <TextView
+            <ImageView
                 android:id="@+id/weather_main_image"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"/>
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:src="@drawable/ic_01d"
+                />
         </LinearLayout>
 
 
